@@ -12,7 +12,7 @@ const GitRepoIssues = () => {
   const [token, setToken] = useState("");
   const [expandedIssueId, setExpandedIssueId] = useState({});
   const [searchValue, setSearchValue] = useState("");
-
+  const [repoName, setRepoName] = useState("");
 
 
   useEffect(() => {
@@ -40,11 +40,15 @@ const GitRepoIssues = () => {
       localStorageTime !== null &&
       currentTime - localStorageTime < 300000
     ) {
-      setIssues(JSON.parse(localStorageIssues));
+      // setRepoName(res.data[0].repository_url.split("/")[5])
+      let data = JSON.parse(localStorageIssues);
+      setRepoName(data[0].repository_url.split("/")[5])
+      setIssues(data);
     } else {
       localStorage.setItem("time", currentTime);
       fetchRepoIssues(url).then((res) => {
         setIssues(res.data);
+        setRepoName(res.data[0].repository_url.split("/")[5])
         localStorage.setItem("localStorageIssues", JSON.stringify(res.data));
       });
     }
@@ -65,6 +69,8 @@ const GitRepoIssues = () => {
     setIssues([]);
     localStorage.removeItem("localStorageIssues");
     localStorage.removeItem("time");
+    setRepoName("");
+    setUrl("");
   };
 
   const handleFetchSubmit = () => {
@@ -73,6 +79,7 @@ const GitRepoIssues = () => {
     fetchRepoIssues(url).then((res) => {
       // localStorage.setItem("url", url);
       setIssues(res.data);
+      setRepoName(res.data[0].repository_url.split("/")[5])
       localStorage.setItem("localStorageIssues", JSON.stringify(res.data));
     });
   };
@@ -84,7 +91,7 @@ const GitRepoIssues = () => {
 
   return (
     <div className="repodiv">
-      <h1>GitHub Repo Issues</h1>
+      {repoName.length > 0 ?  (<h1>{`${repoName} Issues`}</h1>) : <h1>GitHub Repo Issues </h1> }
       <div className="buttons">
         <div>
           <label>
