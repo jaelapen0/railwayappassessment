@@ -9,22 +9,23 @@ const GitRepoIssues = () => {
   const [disabled, setDisabled] = useState(true);
   // array of issues pulled from github and set to local storage
   const [issues, setIssues] = useState([]);
+  //INPUT TOKEN
   const [token, setToken] = useState("");
   const [expandedIssueId, setExpandedIssueId] = useState({});
   const [searchValue, setSearchValue] = useState("");
   const [repoName, setRepoName] = useState("");
-
+  const [localStorageToken, setLocalStorageToken] = useState(null);
 
   useEffect(() => {
     handleLocalStorageToken();
     handleLocalStorageIssues();
-    
-  }, [disabled, token]);
+  }, []);
 
   const handleLocalStorageToken = () => {
     const localStorageToken = localStorage.getItem("token");
     if (localStorageToken !== null) {
-      setToken(localStorageToken);
+      // setToken(localStorageToken);
+      setLocalStorageToken(localStorageToken);
       setDisabled(false);
     }
   }
@@ -40,28 +41,40 @@ const GitRepoIssues = () => {
       localStorageTime !== null &&
       currentTime - localStorageTime < 300000
     ) {
-      // setRepoName(res.data[0].repository_url.split("/")[5])
       let data = JSON.parse(localStorageIssues);
       setRepoName(data[0].repository_url.split("/")[5])
       setIssues(data);
     } else {
       localStorage.setItem("time", currentTime);
-      fetchRepoIssues(url).then((res) => {
-        setIssues(res.data);
-        setRepoName(res.data[0].repository_url.split("/")[5])
-        localStorage.setItem("localStorageIssues", JSON.stringify(res.data));
-      });
+      if (localStorageIssues) {
+        fetchRepoIssues(url).then((res) => {
+          setIssues(res.data);
+          setRepoName(res.data[0].repository_url.split("/")[5])
+          localStorage.setItem("localStorageIssues", JSON.stringify(res.data));
+        });
+      }
     }
   }
 
-  // handle github url change
+  // handle github url input change
   const handleUrlChange = (e) => { setUrl(e.target.value)};
-  const handleTokenChange = (e) => { setToken(e.target.value)};
+  // handle github token input change
+  const handleTokenChange = (e) => {setToken(e.target.value)};
 
   // add token to local storage
-  const saveToken = () => {
-    localStorage.setItem("token", token);
-    setToken("");
+  const submitToken = (e) => {
+    debugger
+    if (localStorage.getItem("token") === null) {
+      localStorage.setItem("token", token)
+      setDisabled(false);
+      setLocalStorageToken(token);
+      setToken("");
+    } else {
+      localStorage.removeItem("token");
+      setDisabled(true);
+      setLocalStorageToken(null);
+      setToken("");
+    }
   };
 
   const clearIssues = () => {
@@ -77,10 +90,10 @@ const GitRepoIssues = () => {
     // Fetch issues based on the GitHub repository URL entered
     // and update the 'issues state with the data
     fetchRepoIssues(url).then((res) => {
-      // localStorage.setItem("url", url);
       setIssues(res.data);
       setRepoName(res.data[0].repository_url.split("/")[5])
       localStorage.setItem("localStorageIssues", JSON.stringify(res.data));
+      localStorage.setItem("time", new Date().getTime());
     });
   };
 
@@ -118,11 +131,11 @@ const GitRepoIssues = () => {
           <label>Token</label>
           <input
             type="password"
-            placeholder="Enter GitHub token"
+            placeholder={localStorageToken !== null ? "Token Already Set" : "Enter GitHub token"}
             value={token}
             onChange={handleTokenChange}
           />
-          <button onClick={saveToken}>Set Token</button>
+          <button onClick={submitToken}>{localStorageToken === null ? "Set Token" : "Clear Token"}</button>
         </div>
       </div>
       
