@@ -16,6 +16,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  background-image: url(https://railway.app/_next/image?url=%2Fillustrations%2Fmap-railway-dark.svg&w=1920&q=75);
+  background-color: #7a7adb;
+  background-image: linear-gradient(315deg, #7a7adb 0%, #170e13 74%);
+
 }
 
 a {
@@ -39,7 +43,10 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
-
+.repodiv{
+width: 800px;
+max-width: 100%;
+}
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -53,6 +60,7 @@ button {
 }
 button:hover {
   border-color: #646cff;
+  background-color: rgb(78, 46, 174);
 }
 button:focus,
 button:focus-visible {
@@ -69,17 +77,20 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+    
   }
 }
 
 .buttons{
   width: 100%;
-  border-bottom: rgb(54, 26, 139) 10px solid;
+  border: rgb(78, 46, 174) 2px solid;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
   /* border: 2px; */
-  box-shadow: 5px 5px 2px 2px darkgray
+  /* box-shadow: 5px 5px 2px 2px rgb(31, 12, 88); */
+  background-color: black;
+  margin-top: 10px;
 }
 .title{
   font-size: large;
@@ -89,6 +100,14 @@ button:focus-visible {
 .user{
   justify-content: center;
   display: flex;
+  margin-bottom: 10px;
+}
+.user > img{
+  width: 30px;
+  height: 30px;
+  border-radius: 20%;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 .small-image{
   width: 30px;
@@ -101,7 +120,7 @@ button:focus-visible {
 }
 
 .body{
-  max-width: 700%;
+  max-width: 800px;
 }
 
 .list{
@@ -110,4 +129,9 @@ button:focus-visible {
 
 .li{
   margin-bottom: 20px;
+  background-color: black;
+  padding: 10px;
+  border: 5px;
+  border: rgb(78, 46, 174) 2px solid;
+  /* border-radius: 2%; */
 }
