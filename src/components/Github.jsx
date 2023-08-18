@@ -91,7 +91,7 @@ const GitRepoIssues = () => {
 
   return (
     <div className="repodiv">
-      {repoName.length > 0 ?  (<h1>{`${repoName} Issues`}</h1>) : <h1>GitHub Repo Issues </h1> }
+      {repoName.length > 0 ?  (<h1>{`${repoName}`}</h1>) : <h1>GitHub Repo Issues </h1> }
       <div className="buttons">
         <div>
           <label>
