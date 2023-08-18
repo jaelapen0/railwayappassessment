@@ -27,7 +27,7 @@ const Issue = ({ issue, toggleIssueBody, expandedIssueId }) => {
       <div>
         {expandedIssueId === issue.id ? (
           <div>
-            <p>{ issue?.pull_request?.html_url ? <a href={issue.pull_request.html_url}>Pull Request</a> : null }</p>
+            <p>{ issue?.pull_request?.html_url ? <a href={issue.pull_request.html_url} target="_blank">Pull Request</a> : null }</p>
             <p>Comments: {issue.comments}</p>
             <p className="body">
               <strong>Body: </strong>
